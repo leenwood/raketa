@@ -2,7 +2,7 @@
 
 namespace Raketa\BackendTestTask\Application\UseCase\AddToCart;
 
-use Raketa\BackendTestTask\Domain\Entity\Cart;
+use Raketa\BackendTestTask\Application\DTO\CartDTO;
 
 interface AddToCartInterface
 {
@@ -10,7 +10,7 @@ interface AddToCartInterface
      * @param string $cartId
      * @param string $productUuid
      * @param int $quantity
-     * @return Cart
+     * @return null|CartDTO
      */
-    public function execute(string $cartId, string $productUuid, int $quantity): Cart;
+    public function execute(string $cartId, string $productUuid, int $quantity): ?CartDTO;
 }

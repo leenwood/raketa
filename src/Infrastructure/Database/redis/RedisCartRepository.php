@@ -8,6 +8,7 @@ use Raketa\BackendTestTask\Domain\Repository\CartRepositoryInterface;
 
 class RedisCartRepository implements CartRepositoryInterface
 {
+    private const TTL = 86400;
     public function __construct(
         private Redis $redis
     ) {
@@ -30,6 +31,6 @@ class RedisCartRepository implements CartRepositoryInterface
 
     public function save(Cart $cart): void
     {
-        $this->redis->setex($cart->getUuid(), 86400, serialize($cart));
+        $this->redis->setex($cart->getUuid(), self::TTL, serialize($cart));
     }
 }

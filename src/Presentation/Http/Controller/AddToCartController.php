@@ -17,19 +17,19 @@ class AddToCartController
     ) {
     }
 
-    public function __invoke(RequestInterface $request): JsonResponse
+    public function get(RequestInterface $request): JsonResponse
     {
-        $data = json_decode($request->getBody()->getContents(), true);
+        $data = json_decode($request->getBody()->getContents(), true) ?? [];
 
-        $cartId = session_id(); // или из токена/куки
+        $cartId = session_id();
         $productUuid = $data['product_uuid'] ?? '';
         $quantity = (int)($data['quantity'] ?? 1);
 
-        $cart = $this->useCase->execute($cartId, $productUuid, $quantity);
+        $cartDTO = $this->useCase->execute($cartId, $productUuid, $quantity);
 
         return new JsonResponse([
             'status' => 'success',
-            'cart' => $this->transformer->toArray($cart),
+            'cart' => $this->transformer->toArray($cartDTO),
         ]);
     }
 }

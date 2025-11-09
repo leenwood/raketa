@@ -4,23 +4,16 @@ declare(strict_types=1);
 
 namespace Raketa\BackendTestTask\Presentation\Http\Transformer;
 
-use Raketa\BackendTestTask\Domain\Entity\Cart;
-use Raketa\BackendTestTask\Domain\Repository\ProductRepositoryInterface;
+use Raketa\BackendTestTask\Application\DTO\CartDTO;
 
 class CartTransformer
 {
-    public function __construct(
-        private ProductRepositoryInterface $productRepository
-    ) {
-    }
-
-    public function toArray(Cart $cart): array
+    public function toArray(CartDTO $cart): array
     {
         $total = 0.0;
         $items = [];
 
         foreach ($cart->getItems() as $item) {
-            $product = $this->productRepository->getByUuid($item->getProductId());
 
             $total += $item->getPrice() * $item->getQuantity();
 
@@ -29,11 +22,11 @@ class CartTransformer
                 'product_uuid' => $item->getProductId(),
                 'quantity' => $item->getQuantity(),
                 'price' => $item->getPrice(),
-                'product' => $product ? [
-                    'uuid' => $item->getProductId(),
-                    'name' => $product->getName(),
-                    'thumbnail' => $product->getThumbnail(),
-                    'price' => $product->getPrice(),
+                'product' => $item->getProduct() ? [
+                    'uuid' => $item->getProduct()?->getUuid(),
+                    'name' => $item->getProduct()?->getName(),
+                    'thumbnail' => $item->getProduct()?->getThumbnail(),
+                    'price' => $item->getProduct()?->getPrice(),
                 ] : null,
             ];
         }

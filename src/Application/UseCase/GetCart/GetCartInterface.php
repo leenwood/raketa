@@ -2,9 +2,9 @@
 
 namespace Raketa\BackendTestTask\Application\UseCase\GetCart;
 
-use Raketa\BackendTestTask\Domain\Entity\Cart;
+use Raketa\BackendTestTask\Application\DTO\CartDTO;
 
 interface GetCartInterface
 {
-    public function execute(string $cartId): ?Cart;
+    public function execute(string $cartId): ?CartDTO;
 }

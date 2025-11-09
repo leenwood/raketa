@@ -17,7 +17,7 @@ class GetProductsController
     ) {
     }
 
-    public function __invoke(RequestInterface $request): JsonResponse
+    public function get(RequestInterface $request): JsonResponse
     {
         $data = json_decode($request->getBody()->getContents(), true);
         $category = $data['category'] ?? '';
